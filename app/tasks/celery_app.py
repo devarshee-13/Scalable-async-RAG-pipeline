@@ -15,3 +15,5 @@ celery_app.conf.update(
     result_serializer="json",
     accept_content=["json"],
 )
+# Register tasks so the worker knows about them
+import app.tasks.ingest  # noqa: F401

@@ -13,8 +13,8 @@ from app.models import Base, engine
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        await conn.run_sync(Base.metadata.create_all)
         await conn.execute(text("""
             CREATE INDEX IF NOT EXISTS chunks_embedding_hnsw_idx
             ON chunks USING hnsw (embedding vector_cosine_ops)
